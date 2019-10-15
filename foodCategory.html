@@ -1,69 +1,117 @@
 <ons-page id="foodCategory">
+    <ons-toolbar>
+        <div class="left">
+            <!-- Toolbar-button with different icons depending on the platform. -->
+            <ons-toolbar-button id="menubtn">
+                <ons-icon icon="ion-navicon, material:md-menu" size="32px, material:24px"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">Target Food</div>
+        <div class="right">
+            <ons-toolbar-button id="backbtn">
+                <!-- <ons-icon icon="back"></ons-icon> -->
+                Back
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
     <div class="card" style="background-color: gold">
-        <h1 style="text-align: center"><b>Food Category</b></h1>
 
-        <!-- 1 -->
-        <ons-row>
-            <!-- <ons-col width="50px"><ons-icon icon="fa-twitter"></ons-icon></ons-col> -->
-            <ons-col id="fast_food">
-                <div class="card card--material"
-                    style="text-align: center; background-color: orangered; color: wheat">
-                    <img src="img/fast_food.jpg" alt="fast_food"
-                        style="width: 100%">
-                    <b>Fast Food</b>
-                </div>
-            </ons-col>
+        <div class="recomended card">
+            <h4 style="text-align: center;"><b>Recomended</b></h4>
+            <ons-carousel auto-scroll auto-scroll-ratio="0.5" auto-refresh swipeable overscrollable item-width="130px"
+                class="recomended_list" id="carousel">
+                <ons-carousel-item modifier="nodivider" id="item1" class="recomended_item">
+                    <div class="thumbnail" style="background-image: url('img/logo/Cafe_amazon.jpg')">
+                    </div>
+                    <div class="recomended_item_title" id="item1_name">Cafe Amazon</div>
+                </ons-carousel-item>
+                <ons-carousel-item modifier="nodivider" id="item1" class="recomended_item">
+                    <div class="thumbnail" style="background-image: url('img/logo/Cafe_amazon.jpg')">
+                    </div>
+                    <div class="recomended_item_title" id="item1_name">Cafe Amazon</div>
+                </ons-carousel-item>
+                <ons-carousel-item modifier="nodivider" id="item1" class="recomended_item">
+                    <div class="thumbnail" style="background-image: url('img/logo/Cafe_amazon.jpg')">
+                    </div>
+                    <div class="recomended_item_title" id="item1_name">Cafe Amazon</div>
+                </ons-carousel-item>
+                <ons-carousel-item modifier="nodivider" id="item1" class="recomended_item">
+                    <div class="thumbnail" style="background-image: url('img/logo/Cafe_amazon.jpg')">
+                    </div>
+                    <div class="recomended_item_title" id="item1_name">Cafe Amazon</div>
+                </ons-carousel-item>
+                <ons-carousel-item modifier="nodivider" id="item1" class="recomended_item">
+                    <div class="thumbnail" style="background-image: url('img/logo/Cafe_amazon.jpg')">
+                    </div>
+                    <div class="recomended_item_title" id="item1_name">Cafe Amazon</div>
+                </ons-carousel-item>
+                <ons-carousel-item modifier="nodivider" id="item1" class="recomended_item">
+                    <div class="thumbnail" style="background-image: url('img/logo/Cafe_amazon.jpg')">
+                    </div>
+                    <div class="recomended_item_title" id="item1_name">Cafe Amazon</div>
+                </ons-carousel-item>
 
-            <ons-col>
-                <div class="card card--material" style="text-align: center; background-color: rebeccapurple; color: wheat">
-                    <img src="img/noodle.jpg" alt="noodle"
-                        style="width: 100%">
-                    <b>Noodle</b>
-                </div>
-            </ons-col>
-        </ons-row>
+            </ons-carousel>
+        </div>
 
-        <!-- 2 -->
-        <ons-row>
-            <ons-col>
-                <div class="card card--material"
-                    style="text-align: center; background-color: rebeccapurple; color: wheat">
-                    <img src="img/pizza.jpg" alt="pizza"
-                        style="width: 100%">
-                    <b>Pizza</b>
-                </div>
-            </ons-col>
-            <ons-col>
-                <div class="card card--material" style="text-align: center; background-color: orangered; color: wheat">
-                    <img src="img/thai_food.jpg" alt="thai_food"
-                        style="width: 100%">
-                    <b>Thai</b>
-                </div>
-            </ons-col>
-        </ons-row>
+        <div class="category">
+            <h1 style="text-align: center"><b>Food Category</b></h1>
+            <!-- 1 -->
+            <ons-row>
+                <ons-col id="fast_food">
+                    <div class="card card--material"
+                        style="text-align: center; background-color: orangered; color: wheat">
+                        <img src="img/fast_food.jpg" alt="fast_food" style="width: 100%">
+                        <b>Fast Food</b>
+                    </div>
+                </ons-col>
 
-        <!-- 3 -->
-        <ons-row>
-            <ons-col>
-                <div class="card card--material"
-                    style="text-align: center; background-color: orangered; color: wheat">
-                    <img src="img/vegetarian.jpg" alt="vegetarian"
-                        style="width: 100%">
-                    <b>Vegetarian</b>
-                </div>
-            </ons-col>
-            <ons-col>
-                <div class="card card--material" style="text-align: center; background-color: rebeccapurple; color: wheat">
-                    <img src="img/drink.jpg" alt="drink"
-                        style="width: 100%">
-                    <b>Drinks</b>
-                </div>
-            </ons-col>
-        </ons-row>
+                <ons-col>
+                    <div class="card card--material"
+                        style="text-align: center; background-color: rebeccapurple; color: wheat">
+                        <img src="img/noodle.jpg" alt="noodle" style="width: 100%">
+                        <b>Noodle</b>
+                    </div>
+                </ons-col>
+            </ons-row>
 
-        <!-- <ons-card class ="card"></ons-card> -->
+            <!-- 2 -->
+            <ons-row>
+                <ons-col>
+                    <div class="card card--material"
+                        style="text-align: center; background-color: rebeccapurple; color: wheat">
+                        <img src="img/pizza.jpg" alt="pizza" style="width: 100%">
+                        <b>Pizza</b>
+                    </div>
+                </ons-col>
+                <ons-col>
+                    <div class="card card--material"
+                        style="text-align: center; background-color: orangered; color: wheat">
+                        <img src="img/thai_food.jpg" alt="thai_food" style="width: 100%">
+                        <b>Thai</b>
+                    </div>
+                </ons-col>
+            </ons-row>
 
+            <!-- 3 -->
+            <ons-row>
+                <ons-col>
+                    <div class="card card--material"
+                        style="text-align: center; background-color: orangered; color: wheat">
+                        <img src="img/vegetarian.jpg" alt="vegetarian" style="width: 100%">
+                        <b>Vegetarian</b>
+                    </div>
+                </ons-col>
+                <ons-col>
+                    <div class="card card--material"
+                        style="text-align: center; background-color: rebeccapurple; color: wheat">
+                        <img src="img/drink.jpg" alt="drink" style="width: 100%">
+                        <b>Drinks</b>
+                    </div>
 
-    </div>
+                </ons-col>
+            </ons-row>
+        </div>
     </div>
 </ons-page>
