@@ -96,7 +96,7 @@ document.addEventListener('init', function (event) {
 
     });
 
-    $("#regist").click(function(){
+    $("#regist").click(function () {
       $("#content")[0].load("regist.html");
     });
 
@@ -105,14 +105,14 @@ document.addEventListener('init', function (event) {
     });
   }
 
-  if(page.id==="registPage"){
+  if (page.id === "registPage") {
 
     $("#regist").click(function () {
       var username = $('#username2').val();
       var email = $('#email').val();
       var phone = $('#phone').val();
       var password = $('#password2').val();
-    
+
       if (!(username === '' || email === '' || phone === '' || password === '')) {
         ons.notification.alert('Registation Complete!');
         $("#Register").html('Back');
@@ -153,31 +153,35 @@ document.addEventListener('init', function (event) {
 
   }
 
-  if(page.id=== "foodCategory"){
-    $("#item1").click(function(){
-      $("#content")[0].load("restaurantMenu.html");
+  if (page.id === "foodCategory") {
+    db.collection("restaurant").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.data().star >= 4) {
+          var carousel = `<ons-carousel-item modifier="nodivider" class="recomended_item" onclick="setIDtoFoodMenu('${doc.id}')">
+      <div class="thumbnail" style="background-image: url(${doc.data().pic})"></div>
+      <div class="recomended_item_title">${doc.data().name}</div>
+      </ons-carousel-item>`;
+          $('#carousel').append(carousel);
+          $('#foodCategory').append(carousel);
+        }
+      });
     });
+    // <img src=${doc.data().pic}alt="Onsen UI" class="thumbnail">
 
-    $("#item2").click(function(){
-
-    });
-
-    $("#item3").click(function(){
-
-    });
-
-    $("#item4").click(function(){
-
-    });
-
-    $("#item5").click(function(){
-
-    });
-
-    $("#item6").click(function(){
-
-    });
-    
+    // db.collection("Category").get().then((querySnapshot) => {
+    //   $('#categorycard').empty();
+    //   querySnapshot.forEach((doc) => {
+    //     var Categorycard = `<ons-col width="50%" style="height: 80%;">
+    //       <ons-card style="width: 90%;height: 90%; text-align: center;" onclick="setSelectedCatagory('${doc.data().name}')">
+    //           <img  src=${doc.data().img}alt="Onsen UI" style="width: 100px ; height: 75px;">
+    //           <div>${doc.data().name}</div>
+    //       </ons-card>
+    //   </ons-col>`;
+    //     console.log(doc.id);
+    //     $('#Recomcategorycard').append(Categorycard);
+    //   });
+    // });
   }
+
 });
 
