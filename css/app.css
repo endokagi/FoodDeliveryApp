@@ -10,6 +10,8 @@
     color: violet;
 }
 
+.card { background-color: rgba(245, 245, 245, 0.8); }
+
 .shadows {
     text-shadow: 1px 1px;
 }
