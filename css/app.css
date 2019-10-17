@@ -2,13 +2,9 @@
     text-align: center;
 }
 
-/* .img_tar {
-    background-image: url("img/target.png");
+.page__background {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/food-delivery-app-c4284.appspot.com/o/category%2Fwall1.jpg?alt=media&token=53f9ba17-395b-4370-852a-8e74e82e3e4d');
 }
-
-#mypage .page__background {
-    background-image: url('img/target.png');
-} */
 .show-menu{
     background-color: yellowgreen;
     color: violet;

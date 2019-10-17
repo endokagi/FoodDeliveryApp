@@ -15,16 +15,17 @@ firebase.initializeApp(firebaseConfig);
 // Use firestorengin
 var db = firebase.firestore();
 
-function setIDtoFoodMenu(ID) {
+function setFoodMenu(ID, Ref) {
   selectedID = ID
-  console.log(selectedID);
-  document.querySelector('#myNavigator').pushPage('restaurantMenu.html');
+  selectedRef = Ref;
+  console.log(selectedID, selectedRef);
+  $("#content")[0].load('restaurantMenu.html');
 }
 
 function setSelectedCatagory(Catagory) {
   selectedCatagory = Catagory;
   console.log(selectedCatagory);
-  document.querySelector('#myNavigator').pushPage('restaurantList.html');
+  $("#content")[0].load('restaurantList.html');
 }
 
 // Main 
@@ -109,9 +110,6 @@ document.addEventListener('init', function (event) {
       $("#content")[0].load("regist.html");
     });
 
-    $("#back").click(function () {
-      $("#content")[0].load("login.html");
-    });
   }
 
   if (page.id === "registPage") {
@@ -134,8 +132,9 @@ document.addEventListener('init', function (event) {
     });
 
     $("#backbtn_regist").click(function () {
-      document.querySelector('#myNavigator').pushPage('login.html');
-      $("#sidemenu")[0].close();
+      $("#content")[0].load("login.html");
+      // document.querySelector('#myNavigator').pushPage('login.html');
+      // $("#sidemenu")[0].close();
     });
 
   }
@@ -162,15 +161,15 @@ document.addEventListener('init', function (event) {
   }
 
   if (page.id === "foodCategory") {
-    
+
     $("#menubtn").click(function () {
-    $("#sidemenu")[0].open();
+      $("#sidemenu")[0].open();
     });
 
     db.collection("restaurant").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.data().star >= 4) {
-          var carousel = `<ons-carousel-item modifier="nodivider" class="recomended_item" onclick="setIDtoFoodMenu('${doc.id}')">
+          var carousel = `<ons-carousel-item modifier="nodivider" class="recomended_item" onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
       <div class="thumbnail" style="background-image: url(${doc.data().pic})"></div>
       <div class="recomended_item_title">${doc.data().name}</div>
       </ons-carousel-item>`;
@@ -199,6 +198,58 @@ document.addEventListener('init', function (event) {
         }
       });
     });
+  }
+
+  if (page.id === "resListPage") {
+
+    $("#backbtn").click(function () {
+      $("#content")[0].load("foodCategory.html");
+    });
+
+    db.collection(selectedCatagory).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+
+        var show_resList = `<div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow">
+        <ons-row><ons-col><img src="${doc.data().pic}" style="width: 90%" onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
+            <b>${doc.data().name}</b></ons-col><ons-col><br>&#x2605; &#x2605; &#x2605; &#x2605; &#x2605;
+            <br>Min Delivery: $15<br></ons-col> </ons-row></div>`;
+        $('#show_resList').append(show_resList);
+      });
+    });
+  }
+
+  if (page.id === "resMenuPage") {
+
+    $("#backbtn").click(function () {
+      $("#content")[0].load("foodCategory.html");
+    });
+
+    db.collection("restaurant").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.id === selectedID) {
+          var show_res = `<ons-col><img src='${doc.data().pic}' style="width: 75%">
+            <b>${doc.data().name}</b>
+            </ons-col><ons-col><br> &#x2605; &#x2605; &#x2605; &#x2605; &#x2605;
+            <br>Min Delivery: $15<br>review 27 view</ons-col>`;
+          $('#show_res').append(show_res);
+
+        }
+      });
+    });
+
+    db.collection(selectedRef).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        var show_resMenu = `<ons-card><ons-row><ons-col>
+              <img src='${doc.data().pic}' style="width: 50%">
+              </ons-col><ons-col style="text-align: center">
+              ${doc.data().menu}<br>
+              <ons-button style="background-color: purple">${doc.data().price} ฿</ons-button>
+              </ons-col></ons-row></ons-card>`;
+        $("#show_menu").append(show_resMenu);
+
+      });
+    });
+
   }
 
 });
