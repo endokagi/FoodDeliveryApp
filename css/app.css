@@ -2,21 +2,40 @@
     text-align: center;
 }
 
-.img_tar {
+/* .img_tar {
     background-image: url("img/target.png");
 }
 
 #mypage .page__background {
     background-image: url('img/target.png');
+} */
+.show-menu{
+    background-color: yellowgreen;
+    color: violet;
+}
+
+.shadows {
+    text-shadow: 1px 1px;
+}
+
+.text_center {
+    text-align: center;
 }
 
 .recomended_item {
     padding-left: 10px;
 }
 
+.rainbow-text {
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
 .recomended_item_title {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
+    text-align: center;
 }
 
 .thumbnail {
@@ -24,6 +43,7 @@
     height: 120px;
     display: table;
     background-color: rgba(0, 0, 0, 0.42);
+    background-size: cover;
 }
 
 .recomended_list {
@@ -32,10 +52,10 @@
 
 .recomended {
     background-color: white;
-    padding-top: 60px;
+    padding-top: 10px;
 }
 
-.menu_list {
+/* .menu_list {
     background: transparent;
 }
 
@@ -83,4 +103,4 @@
     font-weight: bold;
     color: white;
     padding-top: 20px;
-}
+} */

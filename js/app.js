@@ -11,6 +11,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
 // Use firestorengin
 var db = firebase.firestore();
 
@@ -34,34 +35,10 @@ firebase.auth().onAuthStateChanged(function (user) {
   }
 });
 
-// Regist
-var regist = function () {
-  var username = document.getElementById('username2').value;
-  var email = document.getElementById('email').value;
-  var phone = document.getElementById('phone').value;
-  var password = document.getElementById('password2').value;
-
-  if (!(username === '' || email === '' || phone === '' || password === '')) {
-    ons.notification.alert('Registation Complete!');
-    $("#Register").html('Back');
-    $('#facebookbtn').attr("disabled", true);
-    $('#googlebtn').attr("disabled", true);
-    $("#Register").attr("onclick", "backtologin()");
-  } else {
-    ons.notification.alert('Incorrect please fill imformation.');
-  }
-};
-
-// backtologin
-$("#Register").click(function () {
-  $("#content")[0].load("login.html");
-});
-
-
 // main
 document.addEventListener('init', function (event) {
   var page = event.target;
-  console.log("run "+page.id);
+  console.log("run " + page.id);
 
   $("#menubtn").click(function () {
     $("#sidemenu")[0].open();
@@ -75,7 +52,7 @@ document.addEventListener('init', function (event) {
   }
 
   if (page.id === "loginPage") {
-    
+
     // Login
     $("#loginbtn").click(function () {
       var username = $("#username").val();
@@ -119,13 +96,43 @@ document.addEventListener('init', function (event) {
 
     });
 
-    $("#backbtn").click(function(){
-      $("#content")[0].load("home.html");
+    $("#regist").click(function(){
+      $("#content")[0].load("regist.html");
+    });
+
+    $("#back").click(function () {
+      $("#content")[0].load("login.html");
     });
   }
 
-  if (page.id === "menuPage") {
+  if(page.id==="registPage"){
+
+    $("#regist").click(function () {
+      var username = $('#username2').val();
+      var email = $('#email').val();
+      var phone = $('#phone').val();
+      var password = $('#password2').val();
     
+      if (!(username === '' || email === '' || phone === '' || password === '')) {
+        ons.notification.alert('Registation Complete!');
+        $("#Register").html('Back');
+        $('#facebookbtn').attr("disabled", true);
+        $('#googlebtn').attr("disabled", true);
+        $("#Register").attr("onclick", "backtologin()");
+      } else {
+        ons.notification.alert('Incorrect please fill imformation.');
+      }
+    });
+
+    $("#backbtn_regist").click(function () {
+      document.querySelector('#myNavigator').pushPage('login.html');
+      $("#sidemenu")[0].close();
+    });
+
+  }
+
+  if (page.id === "menuPage") {
+
     $("#login").click(function () {
       console.log('loginbtn pressed');
       document.querySelector('#myNavigator').pushPage('login.html');
@@ -137,13 +144,40 @@ document.addEventListener('init', function (event) {
       $("#sidemenu")[0].close();
       firebase.auth().signOut().then(function () {
         // Sign-out successful.
-        ons.notification.alert("LogOut Sucess !");
+        ons.notification.alert("Logout Sucess !");
         $("#content")[0].load("login.html");
       }).catch(function (error) {
         // An error happened.
       });
     });
 
+  }
+
+  if(page.id=== "foodCategory"){
+    $("#item1").click(function(){
+      $("#content")[0].load("restaurantMenu.html");
+    });
+
+    $("#item2").click(function(){
+
+    });
+
+    $("#item3").click(function(){
+
+    });
+
+    $("#item4").click(function(){
+
+    });
+
+    $("#item5").click(function(){
+
+    });
+
+    $("#item6").click(function(){
+
+    });
+    
   }
 });
 

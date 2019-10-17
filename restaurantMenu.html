@@ -1,129 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <!-- Toolbar-button with different icons depending on the platform. -->
+            <ons-toolbar-button id="menubtn">
+                <ons-icon icon="ion-navicon, material:md-menu" size="32px, material:24px"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">Target Food</div>
+        <div class="right">
+            <ons-toolbar-button id="backbtn">Back</ons-toolbar-button>
+        </div>
+    </ons-toolbar>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Restaurant Menu</title>
-
-    <script src="Onsen/js/onsenui.js"></script>
-    <script src="jquery/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="Onsen/css/old-onsen-css-components.min.css">
-    <link rel="stylesheet" href="Onsen/css/onsenui.css">
-
-    <script src="js/app.js"></script>
-
-    <style>
-        #mypage .page__background {
-            background-image: url('img/tar.png');
-            background-repeat: no-repeat;
-            /* width: 100px;
-            height: 100px; */
-        }
-    </style>
-</head>
-
-<body id="mypage">
-    <ons-page>
-        <ons-toolbar style="background-color: yellowgreen;">
-            <div class="center" style=" color: darkblue; text-align: center"><b>Target Food</b></div>
-        </ons-toolbar>
-
-        <ons-card>
-            <div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow">
+    <ons-card>
+        <div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow">
+            <ons-row>
+                <ons-col>
+                    <img src="img/logo/McDonald's.png" alt="McDonald" style="width: 50%">
+                    <b>McDonald's</b>
+                </ons-col>
+                <ons-col>
+                    <br>
+                    &#x2605; &#x2605; &#x2605; &#x2605; &#x2605;
+                    <br>Min Delivery: $15<br>
+                    review 27 view
+                </ons-col>
+            </ons-row>
+        </div>
+        <br><b>Menu Orders</b>
+        <div>
+            <ons-card>
+                <!-- 1 -->
                 <ons-row>
                     <ons-col>
-                        <img src="img/logo/McDonald's.png" alt="McDonald" style="width: 50%">
-                        <b>McDonald's</b>
+                        <img src="img/Mc/1.png" style="width: 50%">
                     </ons-col>
-                    <ons-col>
-                        <br>
-                        &#x2605; &#x2605; &#x2605; &#x2605; &#x2605;
-                        <br>Min Delivery: $15<br>
-                        review 27 view
+                    <ons-col style="text-align: center">
+                        Afternoon Set<br>
+                        <a href="orderCon.html">
+                            <ons-button style="background-color: purple">195 ฿</ons-button>
+                        </a>
                     </ons-col>
                 </ons-row>
-            </div>
-            <br><b>Menu Orders</b>
-            <div>
-                <ons-card>
-                    <!-- 1 -->
-                    <ons-row>
-                        <ons-col>
-                            <img src="img/Mc/1.png" style="width: 50%">
-                        </ons-col>
-                        <ons-col style="text-align: center">
-                            Afternoon Set<br>
-                            <a href="orderCon.html">
-                                <ons-button style="background-color: purple">195 ฿</ons-button>
-                            </a>
-                        </ons-col>
-                    </ons-row>
-                </ons-card>
+            </ons-card>
 
-                <ons-card>
-                    <!-- 2 -->
-                    <ons-row>
-                        <ons-col>
-                            <img src="img/Mc/2.png" style="width: 50%">
-                        </ons-col>
-                        <ons-col style="text-align: center">
-                            Fill Up Pork Burger Set<br>
-                            <a href="">
-                                <ons-button style="background-color: purple">189 ฿</ons-button>
-                            </a>
-                        </ons-col>
-                    </ons-row>
-                </ons-card>
+            <ons-card>
+                <!-- 2 -->
+                <ons-row>
+                    <ons-col>
+                        <img src="img/Mc/2.png" style="width: 50%">
+                    </ons-col>
+                    <ons-col style="text-align: center">
+                        Fill Up Pork Burger Set<br>
+                        <a href="">
+                            <ons-button style="background-color: purple">189 ฿</ons-button>
+                        </a>
+                    </ons-col>
+                </ons-row>
+            </ons-card>
 
-                <ons-card>
-                    <!-- 3 -->
-                    <ons-row>
-                        <ons-col>
-                            <img src="img/Mc/3.png" style="width: 50%">
-                        </ons-col>
-                        <ons-col style="text-align: center">
-                            New! Surprise Combo Set<br>
-                            <a href="">
-                                <ons-button style="background-color: purple">499 ฿</ons-button>
-                            </a>
-                        </ons-col>
-                    </ons-row>
-                </ons-card>
+            <ons-card>
+                <!-- 3 -->
+                <ons-row>
+                    <ons-col>
+                        <img src="img/Mc/3.png" style="width: 50%">
+                    </ons-col>
+                    <ons-col style="text-align: center">
+                        New! Surprise Combo Set<br>
+                        <a href="">
+                            <ons-button style="background-color: purple">499 ฿</ons-button>
+                        </a>
+                    </ons-col>
+                </ons-row>
+            </ons-card>
 
-                <ons-card>
-                    <!-- 4 -->
-                    <ons-row>
-                        <ons-col>
-                            <img src="img/Mc/4.png" style="width: 50%">
-                        </ons-col>
-                        <ons-col style="text-align: center">
-                            McFried Chicken Set<br>
-                            <a href="">
-                                <ons-button style="background-color: purple">129 ฿</ons-button>
-                            </a>
-                        </ons-col>
-                    </ons-row>
-                </ons-card>
+            <ons-card>
+                <!-- 4 -->
+                <ons-row>
+                    <ons-col>
+                        <img src="img/Mc/4.png" style="width: 50%">
+                    </ons-col>
+                    <ons-col style="text-align: center">
+                        McFried Chicken Set<br>
+                        <a href="">
+                            <ons-button style="background-color: purple">129 ฿</ons-button>
+                        </a>
+                    </ons-col>
+                </ons-row>
+            </ons-card>
 
-                <ons-card>
-                    <!-- 5 -->
-                    <ons-row>
-                        <ons-col>
-                            <img src="img/Mc/5.png" style="width: 50%">
-                        </ons-col>
-                        <ons-col style="text-align: center">
-                            Breakfast Family Set<br>
-                            <a href="">
-                                <ons-button style="background-color: purple">299 ฿</ons-button>
-                            </a>
-                        </ons-col>
-                    </ons-row>
-                </ons-card>
-            </div>
-        </ons-card>
-    </ons-page>
-</body>
-
-</html>
+            <ons-card>
+                <!-- 5 -->
+                <ons-row>
+                    <ons-col>
+                        <img src="img/Mc/5.png" style="width: 50%">
+                    </ons-col>
+                    <ons-col style="text-align: center">
+                        Breakfast Family Set<br>
+                        <a href="">
+                            <ons-button style="background-color: purple">299 ฿</ons-button>
+                        </a>
+                    </ons-col>
+                </ons-row>
+            </ons-card>
+        </div>
+    </ons-card>
+</ons-page>

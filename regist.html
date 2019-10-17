@@ -1,73 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<ons-page id="registPage">
+    <div class="container">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register</title>
-
-    <script src="Onsen/js/onsenui.js"></script>
-    <script src="jquery/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="Onsen/css/old-onsen-css-components.min.css">
-    <link rel="stylesheet" href="Onsen/css/onsenui.css">
-    <script src="js/app.js"></script>
-
-    <style>
-        #mypage .page__background {
-            background-image: url('img/target.png');
-            /* background-size: width: 100px; height: 100px; */
-        }
-    </style>
-</head>
-
-<body id="mypage">
-    <ons-page>
-        <ons-page id="mypage">
-            <div style="height: 170px; padding: 1px 0 0 0;">
-                <div class="card card--material">
-                    <h1 style="text-align: right; font-size: 40px; "><b>Target Food</b></h1>
-                </div>
+        <div style="height: 170px; padding: 1px 0 0 0;">
+            <div class="card card--material">
+                <h1 style="text-align: right; font-size: 40px;"><b>Target Food</b></h1>
             </div>
+        </div>
 
-            <div>
-                <div class="card">
-                    <div class="toolbar">
-                        <div class="toolbar__center"><b>REGISTER AN ACCOUNT</b></div>
+        <div class="Login">
+            <div class="card">
+                <div class="toolbar">
+                    <div class="toolbar__center"><b>Register</b></div>
+                </div>
+                <p>
+                    <div style="text-align:center; margin-top: 30px;">
+                        <p>
+                            <ons-input id="username" modifier="underbar" placeholder="Username" float></ons-input>
+                        </p>
+                        <p>
+                            <ons-input id="email" modifier="underbar" type="email" placeholder="Email" float>
+                            </ons-input>
+                        </p>
+                        <p>
+                            <ons-input id="phone" modifier="underbar" type="phone" placeholder="Number phone" float>
+                            </ons-input>
+                        </p>
+                        <p>
+                            <ons-input id="password" modifier="underbar" type="password" placeholder="Password" float>
+                            </ons-input>
+                        </p>
+                        <p style="margin-top: 30px;">
+                            <ons-button id="Register" class="button--large--cta" style="width: 95%; margin: 0 auto;"
+                                id="regist">
+                                Register</ons-button>
+                        </p>
+                        <ons-button id="Register" class="button--large--cta"
+                            style="width: 95%; margin: 0 auto; background-color: gray;" id="backbtn_regist">
+                            Back</ons-button>
+
                     </div>
-                    <p>
-                        <div style="text-align:center; margin-top: 30px;">
-                            <p>
-                                <ons-input id="username2" modifier="underbar" placeholder="Username" float></ons-input>
-                            </p>
-                            <p>
-                                <ons-input id="email" modifier="underbar" type="email" placeholder="Email" float>
-                                </ons-input>
-                            </p>
-                            <p>
-                                <ons-input id="phone" modifier="underbar" type="phone" placeholder="Number phone" float>
-                                </ons-input>
-                            </p>
-                            <p>
-                                <ons-input id="password2" modifier="underbar" type="password" placeholder="Password"
-                                    float>
-                                </ons-input>
-                            </p>
-                            <p style="margin-top: 30px;">
-                                <ons-button id="Register" class="button--large--cta" style="width: 95%; margin: 0 auto;"
-                                    onclick="regist()">
-                                    Register</ons-button>
-                            </p>
-                        </div>
-                    </p>
-                    <hr>
-                    <p style="margin: 10px; text-align: center;">
-                        <button id="facebookbtn" class="button">Facebook</button>
-                        <button id="googlebtn" class="button" style="background-color: red">Google</button>
-                    </p>
-                </div>
+                </p>
+                <hr>
+                <p style="margin: 10px; text-align: center;">
+                    <button class="button" id="fbbtn">Facebook</button>
+                    <button class="button" style="background-color: red" id="googlebtn">Google</button>
+                </p>
             </div>
-        </ons-page>
-</body>
-
-</html>
+        </div>
+    </div>
+</ons-page>
