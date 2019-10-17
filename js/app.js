@@ -15,34 +15,22 @@ firebase.initializeApp(firebaseConfig);
 // Use firestorengin
 var db = firebase.firestore();
 
-// Check Firebase Authentication
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
-    // User is signed in.
-    var displayName = user.displayName;
-    var email = user.email;
-    console.log(email + " sign in");
-    var emailVerified = user.emailVerified;
-    var photoURL = user.photoURL;
-    var isAnonymous = user.isAnonymous;
-    var uid = user.uid;
-    var providerData = user.providerData;
-    ons.notification.alert("Login Sucess !");
-    $("#content")[0].load("foodCategory.html");
-    // ...
-  } else {
+function setIDtoFoodMenu(ID) {
+  selectedID = ID
+  console.log(selectedID);
+  document.querySelector('#myNavigator').pushPage('restaurantMenu.html');
+}
 
-  }
-});
+function setSelectedCatagory(Catagory) {
+  selectedCatagory = Catagory;
+  console.log(selectedCatagory);
+  document.querySelector('#myNavigator').pushPage('restaurantList.html');
+}
 
-// main
+// Main 
 document.addEventListener('init', function (event) {
   var page = event.target;
   console.log("run " + page.id);
-
-  $("#menubtn").click(function () {
-    $("#sidemenu")[0].open();
-  });
 
   if (page.id === 'tabbar') {
     $('#menubtn').click(function () {
@@ -53,7 +41,6 @@ document.addEventListener('init', function (event) {
 
   if (page.id === "loginPage") {
 
-    // Login
     $("#loginbtn").click(function () {
       var username = $("#username").val();
       var password = $("#password").val();
@@ -67,14 +54,32 @@ document.addEventListener('init', function (event) {
         // ...
         console.log(errorCode, errorMessage);
       });
+      // Check Firebase Authentication
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          console.log(email + " sign in");
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+          ons.notification.alert("Login Sucess !");
+          $("#content")[0].load("foodCategory.html");
+          // ...
+        } else {
 
+        }
+      });
 
     });
 
     // login with google
-    var provider = new firebase.auth.GoogleAuthProvider();
-    $("#googlebtn").click(function () {
 
+    $("#googlebtn").click(function () {
+      var provider = new firebase.auth.GoogleAuthProvider();
       // popup
       firebase.auth().signInWithPopup(provider).then(function (result) {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -82,6 +87,9 @@ document.addEventListener('init', function (event) {
         // The signed-in user info.
         var user = result.user;
         // ...
+        var email = user.email;
+        ons.notification.alert("Login Sucess !");
+        console.log(email + " sign in");
         $("#content")[0].load("foodCategory.html");
       }).catch(function (error) {
         // Handle Errors here.
@@ -93,6 +101,7 @@ document.addEventListener('init', function (event) {
         var credential = error.credential;
         // ...
       });
+      // Check Firebase Authentication
 
     });
 
@@ -133,12 +142,11 @@ document.addEventListener('init', function (event) {
 
   if (page.id === "menuPage") {
 
-    $("#login").click(function () {
-      console.log('loginbtn pressed');
-      document.querySelector('#myNavigator').pushPage('login.html');
+    $("#home").click(function () {
+      $("#content")[0].load("foodCategory.html");
       $("#sidemenu")[0].close();
-
     });
+
     $("#logout").click(function () {
       console.log('logoutbtn pressed');
       $("#sidemenu")[0].close();
@@ -154,6 +162,11 @@ document.addEventListener('init', function (event) {
   }
 
   if (page.id === "foodCategory") {
+    
+    $("#menubtn").click(function () {
+    $("#sidemenu")[0].open();
+    });
+
     db.collection("restaurant").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.data().star >= 4) {
@@ -166,22 +179,26 @@ document.addEventListener('init', function (event) {
         }
       });
     });
-    // <img src=${doc.data().pic}alt="Onsen UI" class="thumbnail">
 
-    // db.collection("Category").get().then((querySnapshot) => {
-    //   $('#categorycard').empty();
-    //   querySnapshot.forEach((doc) => {
-    //     var Categorycard = `<ons-col width="50%" style="height: 80%;">
-    //       <ons-card style="width: 90%;height: 90%; text-align: center;" onclick="setSelectedCatagory('${doc.data().name}')">
-    //           <img  src=${doc.data().img}alt="Onsen UI" style="width: 100px ; height: 75px;">
-    //           <div>${doc.data().name}</div>
-    //       </ons-card>
-    //   </ons-col>`;
-    //     console.log(doc.id);
-    //     $('#Recomcategorycard').append(Categorycard);
-    //   });
-    // });
+    db.collection("category").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.data().color) {
+          var category_orange = `<div class="card card--material" style="text-align: center; background-color: orangered; color: wheat;"
+            onclick="setSelectedCatagory('${doc.data().value}')">
+              <img src="${doc.data().pic}" style="width: 100px;">
+              <b>${doc.data().name}</b>
+          </div>`;
+          $('#orange').append(category_orange);
+        } else {
+          var category_purple = `<div class="card card--material" style="text-align: center; background-color: rebeccapurple; color: wheat;"
+            onclick="setSelectedCatagory('${doc.data().value}')">
+              <img src="${doc.data().pic}" style="width: 100px;">
+              <b>${doc.data().name}</b>
+          </div>`;
+          $('#purple').append(category_purple);
+        }
+      });
+    });
   }
 
 });
-
