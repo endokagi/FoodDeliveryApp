@@ -28,6 +28,23 @@ function setSelectedCatagory(Catagory) {
   $("#content")[0].load('restaurantList.html');
 }
 
+// count Order & Item
+var getitem = [];
+var getprice = [];
+var prices = parseInt(0);
+function getOrder(price, menu) {
+  price = parseInt(price);
+  getitem += menu;
+  getprice += price;
+  prices = prices + parseInt(price);
+
+  console.log("menu have " + getitem);
+  console.log("price have " + getprice);
+  console.log("price is " + prices);
+  $("#show_price").empty();
+  $("#show_price").append("Order " + prices + " ฿");
+}
+
 // Main 
 document.addEventListener('init', function (event) {
   var page = event.target;
@@ -170,9 +187,11 @@ document.addEventListener('init', function (event) {
       querySnapshot.forEach((doc) => {
         if (doc.data().star >= 4) {
           var carousel = `<ons-carousel-item modifier="nodivider" class="recomended_item" onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
-      <div class="thumbnail" style="background-image: url(${doc.data().pic})"></div>
-      <div class="recomended_item_title">${doc.data().name}</div>
-      </ons-carousel-item>`;
+          <div class="thumbnail" style="background-image: url(${doc.data().pic})">
+          <div class="recomended_star"><ons-button class="recomended_btn">Rate ${doc.data().star}&#x2605;</ons-button></div>
+          <div class="recomended_review"><ons-button class="recomended_btn">${doc.data().review} view</ons-button></div>
+          </div><div class="recomended_item_title">${doc.data().name}</div>
+          </ons-carousel-item>`;
           $('#carousel').append(carousel);
           $('#foodCategory').append(carousel);
         }
@@ -209,10 +228,11 @@ document.addEventListener('init', function (event) {
     db.collection(selectedCatagory).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
 
-        var show_resList = `<div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow">
-        <ons-row><ons-col><img src="${doc.data().pic}" style="width: 90%" onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
-            <b>${doc.data().name}</b></ons-col><ons-col><br>&#x2605; &#x2605; &#x2605; &#x2605; &#x2605;
-            <br>Min Delivery: $15<br></ons-col> </ons-row></div>`;
+        var show_resList = `<div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow"
+          onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
+          <ons-row><ons-col><img src="${doc.data().pic}" style="width: 90%" >
+          <b>${doc.data().name}</b></ons-col><ons-col><br>${doc.data().sh_star}
+          <br>Min Delivery: $15<br></ons-col>Review ${doc.data().review} view</ons-row></div>`;
         $('#show_resList').append(show_resList);
       });
     });
@@ -229,8 +249,8 @@ document.addEventListener('init', function (event) {
         if (doc.id === selectedID) {
           var show_res = `<ons-col><img src='${doc.data().pic}' style="width: 75%">
             <b>${doc.data().name}</b>
-            </ons-col><ons-col><br> &#x2605; &#x2605; &#x2605; &#x2605; &#x2605;
-            <br>Min Delivery: $15<br>review 27 view</ons-col>`;
+            </ons-col><ons-col><br> ${doc.data().sh_star}
+            <br>Min Delivery: $15<br>review ${doc.data().review} view</ons-col>`;
           $('#show_res').append(show_res);
 
         }
@@ -243,12 +263,39 @@ document.addEventListener('init', function (event) {
               <img src='${doc.data().pic}' style="width: 50%">
               </ons-col><ons-col style="text-align: center">
               ${doc.data().menu}<br>
-              <ons-button style="background-color: purple">${doc.data().price} ฿</ons-button>
+              <ons-button style="background-color: purple" onclick="getOrder('${doc.data().price}','${doc.data().menu}')">
+              ${doc.data().price} ฿</ons-button>
               </ons-col></ons-row></ons-card>`;
         $("#show_menu").append(show_resMenu);
 
       });
     });
+
+    $("#order").click(function () {
+      $("#content")[0].load("order.html");
+    });
+  }
+
+  if (page.id === "orderPage") {
+
+    db.collection("restaurant").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.id === selectedID) {
+          var orderRes = `<img src="${doc.data().pic}" style="width: 20%">
+          <br><b>${doc.data().name}</b><br>`;
+          $('#orderRes').append(orderRes);
+        }
+      });
+    });
+    for (var i = 0; i <= getitem.length; i++) {
+      var show_OrderMenu = `<ons-col>`+(i)+`</ons-col>
+    <ons-col>`+getitem[i]+`</ons-col>
+    <ons-col>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`+getprice[i]+`</ons-col>`;
+    }
+    $("#orderMenu").append(show_OrderMenu);
+
+    var show_total = "Total: " + prices + " ฿";
+    $("#show_total").append(show_total);
 
   }
 
