@@ -8,26 +8,30 @@
             <ons-row style="color: lightslategrey">
                 <ons-col>Quantity</ons-col>
                 <ons-col>Name of Dish</ons-col>
-                <ons-col>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Price</ons-col>
+                <ons-col>&emsp;&emsp;&ensp;Price</ons-col>
             </ons-row>
             <ons-row id="orderMenu"></ons-row>
             <p style="text-align: center">
                 <ons-button id="show_total"></ons-button>
             </p>
-            <hr>
+        </div>
+        <hr>
+        <div>
             <p class="text_center">Pay via</p>
             <p class="text_center">
                 <ons-button class="button--large--cta" style="background-color: rebeccapurple">Cradit Card</ons-button>
-                <br><br>
-                <ons-button class="button--large--cta" style="background-color: royalblue">PayPal</ons-button><br><br>
+                <br>
+                <ons-button class="button--large--cta" style="background-color: royalblue" id="paybtn">PayPal</ons-button><br>
                 <ons-button class="button--large--cta" style="background-color: lightslategrey">Cash on Delivery
                 </ons-button>
 
             </p>
-            <p class="text_center">
-                <ons-button>Back</ons-button>
+            <p class="text_center">or
+                <p class="text_center">
+                    <ons-button id="cancelbtn">Cancel</ons-button>
+                </p>
             </p>
-
         </div>
+
     </div>
 </ons-page>

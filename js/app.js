@@ -34,13 +34,16 @@ var getprice = [];
 var prices = parseInt(0);
 function getOrder(price, menu) {
   price = parseInt(price);
-  getitem += menu;
-  getprice += price;
+
+  getitem.push(menu);
+  getprice.push(price);
+
   prices = prices + parseInt(price);
 
-  console.log("menu have " + getitem);
   console.log("price have " + getprice);
-  console.log("price is " + prices);
+  console.log("menu have " + getitem);
+  console.log("count menu = " + getitem.length);
+
   $("#show_price").empty();
   $("#show_price").append("Order " + prices + " ฿");
 }
@@ -227,13 +230,15 @@ document.addEventListener('init', function (event) {
 
     db.collection(selectedCatagory).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-
-        var show_resList = `<div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow"
+          var show_resList = `<div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow"
           onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
-          <ons-row><ons-col><img src="${doc.data().pic}" style="width: 90%" >
-          <b>${doc.data().name}</b></ons-col><ons-col><br>${doc.data().sh_star}
-          <br>Min Delivery: $15<br></ons-col>Review ${doc.data().review} view</ons-row></div>`;
-        $('#show_resList').append(show_resList);
+          <ons-row><ons-col><img src='${doc.data().pic}' style="width: 80%">
+            <b>${doc.data().name}</b>
+            </ons-col><ons-col><br> ${doc.data().sh_star}
+            <br>Min Delivery: $15<br>${doc.data().review} view</ons-col></ons-row></div>`;
+          $('#show_resList').append(show_resList);
+
+        
       });
     });
   }
@@ -247,7 +252,7 @@ document.addEventListener('init', function (event) {
     db.collection("restaurant").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.id === selectedID) {
-          var show_res = `<ons-col><img src='${doc.data().pic}' style="width: 75%">
+          var show_res = `<ons-col><img src='${doc.data().pic}' style="width: 80%">
             <b>${doc.data().name}</b>
             </ons-col><ons-col><br> ${doc.data().sh_star}
             <br>Min Delivery: $15<br>review ${doc.data().review} view</ons-col>`;
@@ -287,15 +292,26 @@ document.addEventListener('init', function (event) {
         }
       });
     });
-    for (var i = 0; i <= getitem.length; i++) {
-      var show_OrderMenu = `<ons-col>`+(i)+`</ons-col>
-    <ons-col>`+getitem[i]+`</ons-col>
-    <ons-col>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`+getprice[i]+`</ons-col>`;
+
+    for (var i = 0; i < getitem.length; i++) {
+      var show_OrderMenu = `<ons-col width=20%>&emsp;` + (1) + `</ons-col>
+      <ons-col width=50%>`+ getitem[i] + `</ons-col>&emsp;&emsp; 
+      <ons-col width=20%>`+ getprice[i] + `</ons-col>`;
+      $("#orderMenu").append(show_OrderMenu);
     }
-    $("#orderMenu").append(show_OrderMenu);
 
     var show_total = "Total: " + prices + " ฿";
     $("#show_total").append(show_total);
+
+    $("#paybtn").click(function () {
+      ons.notification.alert("Order Complete !");
+      // localStorage.empty();
+      $("#cancelbtn").html('Back');
+    });
+
+    $("#cancelbtn").click(function () {
+      $("#content")[0].load("foodCategory.html");
+    });
 
   }
 
