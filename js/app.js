@@ -15,34 +15,35 @@ firebase.initializeApp(firebaseConfig);
 // Use firestorengin
 var db = firebase.firestore();
 
-function setFoodMenu(ID, Ref) {
-  selectedID = ID
+function setFoodMenu(Ref) {
   selectedRef = Ref;
-  console.log(selectedID, selectedRef);
+  // console.log(selectedRef);
   $("#content")[0].load('restaurantMenu.html');
 }
 
 function setSelectedCatagory(Catagory) {
   selectedCatagory = Catagory;
-  console.log(selectedCatagory);
+  // console.log(selectedCatagory);
   $("#content")[0].load('restaurantList.html');
 }
 
 // count Order & Item
 var getitem = [];
 var getprice = [];
+var getdelivery = parseInt(0);
 var prices = parseInt(0);
-function getOrder(price, menu) {
+function getOrder(price, menu, delivery) {
 
   getitem.push(menu);
   getprice.push(price);
-
+  getdelivery = parseInt(delivery);
   prices += parseInt(price);
 
   ons.notification.alert("Add 1 item !");
-  console.log("price have " + getprice);
-  console.log("menu have " + getitem);
-  console.log("count menu = " + getitem.length);
+  // console.log("price have " + getprice);
+  // console.log("menu have " + getitem);
+  // console.log("count menu = " + getitem.length);
+  // console.log("delivery = " + getdelivery);
 
   $("#show_price").empty();
   $("#show_price").append("Order " + prices + " ฿ " + getitem.length + " item");
@@ -54,20 +55,13 @@ document.addEventListener('init', function (event) {
   var page = event.target;
   console.log("run " + page.id);
 
-  if (page.id === 'tabbar') {
-    $('#menubtn').click(function () {
-      var menu = document.getElementById('menu');
-      menu.open();
-    });
-  }
-
   if (page.id === "loginPage") {
 
     $("#loginbtn").click(function () {
       var username = $("#username").val();
       var password = $("#password").val();
 
-      console.log(username, password);
+      // console.log(username, password);
 
       firebase.auth().signInWithEmailAndPassword(username, password).catch(function (error) {
         // Handle Errors here.
@@ -75,6 +69,7 @@ document.addEventListener('init', function (event) {
         var errorMessage = error.message;
         // ...
         console.log(errorCode, errorMessage);
+        ons.notification.alert("Incorrect, check your Email and Password")
       });
       // Check Firebase Authentication
       firebase.auth().onAuthStateChanged(function (user) {
@@ -83,7 +78,7 @@ document.addEventListener('init', function (event) {
           var displayName = user.displayName;
           var email = user.email;
           EMAIL = email;
-          console.log(email + " sign in");
+          console.log(EMAIL + " sign in");
           var emailVerified = user.emailVerified;
           var photoURL = user.photoURL;
           var isAnonymous = user.isAnonymous;
@@ -157,7 +152,7 @@ document.addEventListener('init', function (event) {
               console.log("Registation Success !");
               ons.notification.alert('Registation Complete!');
               $("#content")[0].load("login.html");
-              
+
               // add to database 
               db.collection("user_info").doc().set({
                 username: username,
@@ -167,7 +162,7 @@ document.addEventListener('init', function (event) {
               })
                 .then(function () {
                   console.log("Added in database!");
-                 
+
                 }).catch(function (error) {
                   console.log("Error Writing document: ", error);
                 });
@@ -194,7 +189,6 @@ document.addEventListener('init', function (event) {
     });
 
     $("#logout").click(function () {
-      console.log('logoutbtn pressed');
       console.log(EMAIL + " sign out");
       $("#sidemenu")[0].close();
       firebase.auth().signOut().then(function () {
@@ -217,7 +211,7 @@ document.addEventListener('init', function (event) {
     db.collection("restaurant").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.data().star >= 4) {
-          var carousel = `<ons-carousel-item modifier="nodivider" class="recomended_item" onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
+          var carousel = `<ons-carousel-item modifier="nodivider" class="recomended_item" onclick="setFoodMenu('${doc.data().Ref}')">
           <div class="thumbnail" style="background-image: url(${doc.data().pic})">
           <div class="recomended_star"><ons-button class="recomended_btn">Rate ${doc.data().star}&#x2605;</ons-button></div>
           <div class="recomended_review"><ons-button class="recomended_btn">${doc.data().review} view</ons-button></div>
@@ -232,14 +226,14 @@ document.addEventListener('init', function (event) {
       querySnapshot.forEach((doc) => {
         if (doc.data().color) {
           var category_orange = `<div class="card card--material" style="text-align: center; background-color: orangered; color: wheat;"
-            onclick="setSelectedCatagory('${doc.data().value}')">
+            onclick="setSelectedCatagory('${doc.data().category}')">
               <img src="${doc.data().pic}" style="width: 100px;">
               <b>${doc.data().name}</b>
           </div>`;
           $('#orange').append(category_orange);
         } else {
           var category_purple = `<div class="card card--material" style="text-align: center; background-color: rebeccapurple; color: wheat;"
-            onclick="setSelectedCatagory('${doc.data().value}')">
+            onclick="setSelectedCatagory('${doc.data().category}')">
               <img src="${doc.data().pic}" style="width: 100px;">
               <b>${doc.data().name}</b>
           </div>`;
@@ -255,14 +249,14 @@ document.addEventListener('init', function (event) {
       $("#content")[0].load("foodCategory.html");
     });
 
-    db.collection(selectedCatagory).get().then((querySnapshot) => {
+    db.collection("restaurant").where("category", "==", selectedCatagory).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         var show_resList = `<div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow"
-          onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
+          onclick="setFoodMenu('${doc.data().Ref}')">
           <ons-row><ons-col><img src='${doc.data().pic}' style="width: 80%">
             <b>${doc.data().name}</b>
             </ons-col><ons-col><br> ${doc.data().sh_star}
-            <br>Min Delivery: $15<br>${doc.data().review} view</ons-col></ons-row></div>`;
+            <br>Delivery: ${doc.data().delivery} ฿<br>${doc.data().review} view</ons-col></ons-row></div>`;
         $('#show_resList').append(show_resList);
 
 
@@ -278,29 +272,32 @@ document.addEventListener('init', function (event) {
 
     db.collection("restaurant").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if (doc.id === selectedID) {
+        if (doc.data().Ref === selectedRef) {
           var show_res = `<ons-col><img src='${doc.data().pic}' style="width: 80%">
             <b>${doc.data().name}</b>
             </ons-col><ons-col><br> ${doc.data().sh_star}
-            <br>Min Delivery: $15<br>review ${doc.data().review} view</ons-col>`;
+        <br>Delivery: ${doc.data().delivery} ฿<br>review ${doc.data().review} view</ons-col>`;
           $('#show_res').append(show_res);
 
         }
       });
     });
 
-    db.collection(selectedRef).get().then((querySnapshot) => {
+    db.collection("restaurant").where("Ref", "==", selectedRef).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        var show_resMenu = `<ons-card><ons-row><ons-col>
-              <img src='${doc.data().pic}' style="width: 50%">
+        var menu = doc.data().menu;
+        for (let index = 0; index < menu.length; index++) {
+          var Menu = menu[index];
+          var show_resMenu = `<ons-card><ons-row><ons-col>
+              <img src='${Menu.pic}' style="width: 50%">
               </ons-col><ons-col style="text-align: center">
-              ${doc.data().menu}<br>
-              <ons-button style="background-color: purple" >${doc.data().price} ฿</ons-button>&emsp;
+              ${Menu.name}<br>
+              <ons-button style="background-color: purple" >${Menu.price} ฿</ons-button>&emsp;
               <ons-button style="width: 30%; background-color: rgba(0, 0, 0, 0.42);" 
-              onclick="getOrder('${doc.data().price}','${doc.data().menu}')">+</ons-button>
+              onclick="getOrder('${Menu.price}','${Menu.name}',${doc.data().delivery})">+</ons-button>
               </ons-col></ons-row></ons-card>`;
-        $("#show_menu").append(show_resMenu);
-
+          $("#show_menu").append(show_resMenu);
+        }
       });
     });
 
@@ -316,7 +313,7 @@ document.addEventListener('init', function (event) {
 
     db.collection("restaurant").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if (doc.id === selectedID) {
+        if (doc.data().Ref === selectedRef) {
           var orderRes = `<img src="${doc.data().pic}" style="width: 20%">
           <br><b>${doc.data().name}</b><br>`;
           $('#orderRes').append(orderRes);
@@ -331,7 +328,8 @@ document.addEventListener('init', function (event) {
       $("#orderMenu").append(show_OrderMenu);
     }
 
-    var show_total = "Total: " + prices + " ฿";
+    $("#show_delivery").append("Delivery is " + getdelivery + " ฿");
+    var show_total = "Total: " + (prices + getdelivery) + " ฿";
     $("#show_total").append(show_total);
 
     $("#paybtn").click(function () {
@@ -341,9 +339,10 @@ document.addEventListener('init', function (event) {
     });
 
     $("#cancelbtn").click(function () {
-      // prices.empty();
-      // getitem.empty();
-      // getprice.empty();
+      prices = parseInt(0);
+      getdelivery = parseInt(0);
+      getitem = [];
+      getprice = [];
       $("#content")[0].load("foodCategory.html");
     });
 

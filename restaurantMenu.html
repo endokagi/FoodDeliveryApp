@@ -16,10 +16,22 @@
             <div id="show_menu"></div>
         </div>
 
-        <div style="margin-top:10px; text-align: center;">
+        <!-- <div style="margin-top:10px; text-align: center;">
             <ons-button id="order" style="background-color: rebeccapurple;" class="button--large--cta">
-                <span class="toolbar-button" style="color: yellow;" id="show_price">Order 0 ฿</span>
+                <span class="toolbar-button" style="color: yellow;" id="show_price"></span>
             </ons-button>
+        </div> -->
+        <div class="text_center">
+            <ons-bottom-toolbar style="position: fixed; background-color : rgba(0, 0, 0, 0.42);">
+                <ons-button id="show_price" style="width:70%; background-color: rgba(0, 0, 0, 0.42);">
+                    Order 0 ฿
+
+                </ons-button>
+                <ons-button id="order" style="width: 30%;">
+                    <ion-icon id="order" style="margin-top: 3px;">&#128722;</ion-icon>
+                </ons-button>
+                <br>
+            </ons-bottom-toolbar>
         </div>
 
     </ons-card>
