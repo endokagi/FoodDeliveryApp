@@ -33,22 +33,23 @@ var getitem = [];
 var getprice = [];
 var prices = parseInt(0);
 function getOrder(price, menu) {
-  price = parseInt(price);
 
   getitem.push(menu);
   getprice.push(price);
 
-  prices = prices + parseInt(price);
+  prices += parseInt(price);
 
+  ons.notification.alert("Add 1 item !");
   console.log("price have " + getprice);
   console.log("menu have " + getitem);
   console.log("count menu = " + getitem.length);
 
   $("#show_price").empty();
-  $("#show_price").append("Order " + prices + " ฿");
+  $("#show_price").append("Order " + prices + " ฿ " + getitem.length + " item");
 }
 
 // Main 
+var EMAIL;
 document.addEventListener('init', function (event) {
   var page = event.target;
   console.log("run " + page.id);
@@ -81,6 +82,7 @@ document.addEventListener('init', function (event) {
           // User is signed in.
           var displayName = user.displayName;
           var email = user.email;
+          EMAIL = email;
           console.log(email + " sign in");
           var emailVerified = user.emailVerified;
           var photoURL = user.photoURL;
@@ -109,8 +111,9 @@ document.addEventListener('init', function (event) {
         var user = result.user;
         // ...
         var email = user.email;
+        EMAIL = email;
         ons.notification.alert("Login Sucess !");
-        console.log(email + " sign in");
+        console.log(EMAIL + " sign in");
         $("#content")[0].load("foodCategory.html");
       }).catch(function (error) {
         // Handle Errors here.
@@ -135,26 +138,50 @@ document.addEventListener('init', function (event) {
   if (page.id === "registPage") {
 
     $("#regist").click(function () {
-      var username = $('#username2').val();
+      var username = $('#username').val();
       var email = $('#email').val();
       var phone = $('#phone').val();
-      var password = $('#password2').val();
+      var password = $('#password').val();
+      var Confirm_password = $('#Confirm_password').val();
 
-      if (!(username === '' || email === '' || phone === '' || password === '')) {
-        ons.notification.alert('Registation Complete!');
-        $("#Register").html('Back');
-        $('#facebookbtn').attr("disabled", true);
-        $('#googlebtn').attr("disabled", true);
-        $("#Register").attr("onclick", "backtologin()");
+      if (!(username === '' || email === '' || phone === '' || password === '' || Confirm_password === '')) {
+        if (password == Confirm_password) {
+
+          firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if (errorCode === 'auth/weak-password') {
+              console.log("Can't add to database");
+              ons.notification.alert("Password isn't secure");
+            } else {
+              console.log("Registation Success !");
+              ons.notification.alert('Registation Complete!');
+              $("#content")[0].load("login.html");
+              
+              // add to database 
+              db.collection("user_info").doc().set({
+                username: username,
+                email: email,
+                password: password,
+                phone: phone
+              })
+                .then(function () {
+                  console.log("Added in database!");
+                 
+                }).catch(function (error) {
+                  console.log("Error Writing document: ", error);
+                });
+            }
+          });
+        } else ons.notification.alert('Incorrect, please check or fill information.');
+
       } else {
-        ons.notification.alert('Incorrect please fill imformation.');
+        ons.notification.alert('Incorrect, please fill information.');
       }
     });
 
-    $("#backbtn_regist").click(function () {
+    $("#backBTN").click(function () {
       $("#content")[0].load("login.html");
-      // document.querySelector('#myNavigator').pushPage('login.html');
-      // $("#sidemenu")[0].close();
     });
 
   }
@@ -168,6 +195,7 @@ document.addEventListener('init', function (event) {
 
     $("#logout").click(function () {
       console.log('logoutbtn pressed');
+      console.log(EMAIL + " sign out");
       $("#sidemenu")[0].close();
       firebase.auth().signOut().then(function () {
         // Sign-out successful.
@@ -196,7 +224,6 @@ document.addEventListener('init', function (event) {
           </div><div class="recomended_item_title">${doc.data().name}</div>
           </ons-carousel-item>`;
           $('#carousel').append(carousel);
-          $('#foodCategory').append(carousel);
         }
       });
     });
@@ -230,15 +257,15 @@ document.addEventListener('init', function (event) {
 
     db.collection(selectedCatagory).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-          var show_resList = `<div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow"
+        var show_resList = `<div class="card card--material" style="text-align: center;background-color: rebeccapurple; color: yellow"
           onclick="setFoodMenu('${doc.id}','${doc.data().Ref}')">
           <ons-row><ons-col><img src='${doc.data().pic}' style="width: 80%">
             <b>${doc.data().name}</b>
             </ons-col><ons-col><br> ${doc.data().sh_star}
             <br>Min Delivery: $15<br>${doc.data().review} view</ons-col></ons-row></div>`;
-          $('#show_resList').append(show_resList);
+        $('#show_resList').append(show_resList);
 
-        
+
       });
     });
   }
@@ -268,8 +295,9 @@ document.addEventListener('init', function (event) {
               <img src='${doc.data().pic}' style="width: 50%">
               </ons-col><ons-col style="text-align: center">
               ${doc.data().menu}<br>
-              <ons-button style="background-color: purple" onclick="getOrder('${doc.data().price}','${doc.data().menu}')">
-              ${doc.data().price} ฿</ons-button>
+              <ons-button style="background-color: purple" >${doc.data().price} ฿</ons-button>&emsp;
+              <ons-button style="width: 30%; background-color: rgba(0, 0, 0, 0.42);" 
+              onclick="getOrder('${doc.data().price}','${doc.data().menu}')">+</ons-button>
               </ons-col></ons-row></ons-card>`;
         $("#show_menu").append(show_resMenu);
 
@@ -277,7 +305,10 @@ document.addEventListener('init', function (event) {
     });
 
     $("#order").click(function () {
-      $("#content")[0].load("order.html");
+      if (getitem.length == 0) {
+        ons.notification.alert("Can't pass, you have 0 menu in cart");
+      } else
+        $("#content")[0].load("order.html");
     });
   }
 
@@ -295,7 +326,7 @@ document.addEventListener('init', function (event) {
 
     for (var i = 0; i < getitem.length; i++) {
       var show_OrderMenu = `<ons-col width=20%>&emsp;` + (1) + `</ons-col>
-      <ons-col width=50%>`+ getitem[i] + `</ons-col>&emsp;&emsp; 
+      <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
       <ons-col width=20%>`+ getprice[i] + `</ons-col>`;
       $("#orderMenu").append(show_OrderMenu);
     }
@@ -305,11 +336,14 @@ document.addEventListener('init', function (event) {
 
     $("#paybtn").click(function () {
       ons.notification.alert("Order Complete !");
-      // localStorage.empty();
       $("#cancelbtn").html('Back');
+      $("#AllPay").empty();
     });
 
     $("#cancelbtn").click(function () {
+      // prices.empty();
+      // getitem.empty();
+      // getprice.empty();
       $("#content")[0].load("foodCategory.html");
     });
 
