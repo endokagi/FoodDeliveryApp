@@ -15,6 +15,27 @@ firebase.initializeApp(firebaseConfig);
 // Use firestorengin
 var db = firebase.firestore();
 
+// Check Firebase Authentication
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    EMAIL = email;
+    console.log(EMAIL + " sign in");
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    ons.notification.alert("Login Sucess !");
+    $("#content")[0].load("foodCategory.html");
+    // ...
+  } else {
+
+  }
+});
+
 function setFoodMenu(Ref) {
   selectedRef = Ref;
   // console.log(selectedRef);
@@ -69,29 +90,8 @@ document.addEventListener('init', function (event) {
         var errorMessage = error.message;
         // ...
         console.log(errorCode, errorMessage);
-        ons.notification.alert("Incorrect, check your Email and Password")
+        ons.notification.alert("Incorrect, check your Email and Password");
       });
-      // Check Firebase Authentication
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          // User is signed in.
-          var displayName = user.displayName;
-          var email = user.email;
-          EMAIL = email;
-          console.log(EMAIL + " sign in");
-          var emailVerified = user.emailVerified;
-          var photoURL = user.photoURL;
-          var isAnonymous = user.isAnonymous;
-          var uid = user.uid;
-          var providerData = user.providerData;
-          ons.notification.alert("Login Sucess !");
-          $("#content")[0].load("foodCategory.html");
-          // ...
-        } else {
-
-        }
-      });
-
     });
 
     // login with google
@@ -322,9 +322,14 @@ document.addEventListener('init', function (event) {
     });
 
     for (var i = 0; i < getitem.length; i++) {
-      var show_OrderMenu = `<ons-col width=20%>&emsp;` + (1) + `</ons-col>
+      // var show_OrderMenu = `<ons-col width=20%>&emsp;` + (1) + `</ons-col>
+      // <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
+      // <ons-col width=20%>`+ getprice[i] + `</ons-col>`;
+      var show_OrderMenu = `
+      <ons-col width=20%>&emsp;` + (1) + `</ons-col>
       <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
       <ons-col width=20%>`+ getprice[i] + `</ons-col>`;
+
       $("#orderMenu").append(show_OrderMenu);
     }
 

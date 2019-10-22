@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Target Food</title>
-
+    <link rel="manifest" href="/manifest.json">
 </head>
 <!-- style="text-align: center; background-color: red; color: white" -->
 
@@ -42,6 +42,17 @@
     <script src="lib/jquery/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
     <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css">
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((reg) => {
+                        console.log('Service worker registered.', reg);
+                    });
+            });
+        }
+    </script>
 
     <script src="js/app.js"></script>
     <link rel="stylesheet" href="css/app.css">
