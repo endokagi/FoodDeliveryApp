@@ -200,6 +200,11 @@ document.addEventListener('init', function (event) {
       });
     });
 
+    $("#address").click(function () {
+      $("#content")[0].load("address.html");
+      $("#sidemenu")[0].close();
+    });
+
   }
 
   if (page.id === "foodCategory") {
@@ -341,6 +346,7 @@ document.addEventListener('init', function (event) {
       ons.notification.alert("Order Complete !");
       $("#cancelbtn").html('Back');
       $("#AllPay").empty();
+      // $("#content")[0].load("address.html");
     });
 
     $("#cancelbtn").click(function () {
@@ -351,6 +357,59 @@ document.addEventListener('init', function (event) {
       $("#content")[0].load("foodCategory.html");
     });
 
+  }
+
+  if (page.id === "addressPage") {
+    var latitude, selectedLatitude;
+    var longitude, selectedLongitude;
+
+    var onSuccess = function (position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZW5kb3pha2kiLCJhIjoiY2sybGExYWp0MDR5ZDNobHBqYmxlbXhkYyJ9.5B75D4Lwqh_gQk7Uj_vefw';
+      var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+        center: [longitude, latitude], // starting position [lng, lat]
+        zoom: 14 // starting zoom
+      });
+
+      // selectedLatitude = latitude;
+      // selectedLongitude = longitude;
+
+      var marker = new mapboxgl.Marker({
+        draggable: true
+      })
+        .setLngLat([longitude, latitude])
+        .addTo(map);
+      onDragEnd();
+      function onDragEnd() {
+        var lngLat = marker.getLngLat();
+        selectedLatitude = lngLat.lat;
+        selectedLongitude = lngLat.lng;
+
+        coordinates.style.display = 'block';
+        coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+      }
+
+      marker.on('dragend', onDragEnd);
+    };
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+      alert('code: ' + error.code + '\n' +
+        'message: ' + error.message + '\n');
+    }
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+    $("#setAddress").click(function () {
+      console.log("Latitude is " + selectedLatitude + " Longitude is " + selectedLongitude);
+
+      // ons.notification.alert();
+    });
   }
 
 });
