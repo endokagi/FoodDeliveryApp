@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Target Food</title>
+    <link rel="manifest" href="/manifest.json">
+</head>
+<!-- style="text-align: center; background-color: red; color: white" -->
+
+<body>
+    <!-- First navigation component: Navigator. This will remain always on top of the app. -->
+    <ons-navigator id="myNavigator" page="splitter.html">
+    </ons-navigator>
+
+    <!-- Second navigation component: Splitter. This will disappear if the first component changes its content. -->
+    <template id="splitter.html">
+        <ons-page>
+            <ons-splitter id="mySplitter">
+                <ons-splitter-side id="sidemenu" page="menu.html" swipeable width="250px" collapse
+                    swipe-target-width="50px">
+                </ons-splitter-side>
+                <ons-splitter-content page="login.html" id="content">
+                </ons-splitter-content>
+            </ons-splitter>
+        </ons-page>
+    </template>
+
+
+    <!-- ///////////////////////////////// Firebase ///////////////////////////////// -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-firestore.js"></script>
+
+    <!-- Onsen UI -->
+    <script src="lib/onsen/js/onsenui.js"></script>
+    <script src="lib/jquery/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css">
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((reg) => {
+                        console.log('Service worker registered.', reg);
+                    });
+            });
+        }
+    </script>
+
+    <script src="js/app.js"></script>
+    <link rel="stylesheet" href="css/app.css">
+</body>
+
+</html>

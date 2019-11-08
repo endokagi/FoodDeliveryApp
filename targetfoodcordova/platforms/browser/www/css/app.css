@@ -1,0 +1,70 @@
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+.page__background {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/food-delivery-app-c4284.appspot.com/o/category%2Fwall1.jpg?alt=media&token=53f9ba17-395b-4370-852a-8e74e82e3e4d');
+}
+.show-menu{
+    background-color: yellowgreen;
+    color: violet;
+}
+
+.card { background-color: rgba(245, 245, 245, 0.8); }
+
+.shadows {
+    text-shadow: 1px 1px;
+}
+
+.text_center {
+    text-align: center;
+}
+
+.recomended_star{
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 20px;
+}
+
+.recomended_review{
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+.recomended_btn{
+    background-color: rebeccapurple;
+    color: yellow;
+}
+
+.rainbow-text {
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.recomended_item {
+    padding-left: 10px;
+}
+
+.recomended_item_title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.thumbnail {
+    width: 300px;
+    height: 260px;
+    display: table;
+    background-color: rgba(0, 0, 0, 0.42);
+    background-size: cover;
+}
+
+.recomended_list {
+    height: 300px;
+}
+
+.recomended {
+    background-color: rgba(245, 245, 245, 0.8);
+    padding-top: 10px;
+}

@@ -1,0 +1,32 @@
+<ons-page id="foodCategory">
+    <ons-toolbar>
+        <div class="left">
+            <!-- Toolbar-button with different icons depending on the platform. -->
+            <ons-toolbar-button id="menubtn">
+                <ons-icon icon="ion-navicon, material:md-menu" size="32px, material:24px"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">Target Food</div>
+        
+    </ons-toolbar>
+
+    <div class="card" >
+
+        <div class="recomended">
+            <h1 class="text_center rainbow-text"><b>Recomended</b></h1>
+            <ons-carousel auto-scroll auto-scroll-ratio="0.5" auto-refresh swipeable overscrollable
+                class="recomended_list" id="carousel">
+            </ons-carousel>
+        </div>
+
+        <div class="category">
+            <h2 class="text_center" style="color: indigo;"><b>Food Category</b></h2>
+            <!-- 1 -->
+            <ons-row>
+                <ons-col id="orange"></ons-col>
+                <ons-col id="purple"></ons-col>
+            </ons-row>
+
+        </div>
+    </div>
+</ons-page>
