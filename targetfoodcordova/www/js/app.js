@@ -107,9 +107,8 @@ document.addEventListener('init', function (event) {
         // ...
         var email = user.email;
         EMAIL = email;
-        ons.notification.alert("Login Sucess !");
+        // ons.notification.alert("Login Complete !");
         console.log(EMAIL + " sign in");
-        $("#content")[0].load("foodCategory.html");
       }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -409,6 +408,10 @@ document.addEventListener('init', function (event) {
       console.log("Latitude is " + selectedLatitude + " Longitude is " + selectedLongitude);
 
       // ons.notification.alert();
+    });
+
+    $("#backbtn").click(function () {
+      $("#content")[0].load("foodCategory.html");
     });
   }
 
