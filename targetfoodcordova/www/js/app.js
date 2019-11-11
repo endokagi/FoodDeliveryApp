@@ -199,11 +199,6 @@ document.addEventListener('init', function (event) {
       });
     });
 
-    $("#address").click(function () {
-      $("#content")[0].load("address.html");
-      $("#sidemenu")[0].close();
-    });
-
   }
 
   if (page.id === "foodCategory") {
@@ -326,9 +321,6 @@ document.addEventListener('init', function (event) {
     });
 
     for (var i = 0; i < getitem.length; i++) {
-      // var show_OrderMenu = `<ons-col width=20%>&emsp;` + (1) + `</ons-col>
-      // <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
-      // <ons-col width=20%>`+ getprice[i] + `</ons-col>`;
       var show_OrderMenu = `
       <ons-col width=20%>&emsp;` + (1) + `</ons-col>
       <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
@@ -342,10 +334,7 @@ document.addEventListener('init', function (event) {
     $("#show_total").append(show_total);
 
     $("#paybtn").click(function () {
-      ons.notification.alert("Order Complete !");
-      $("#cancelbtn").html('Back');
-      $("#AllPay").empty();
-      // $("#content")[0].load("address.html");
+      $("#content")[0].load("address.html");
     });
 
     $("#cancelbtn").click(function () {
@@ -406,11 +395,42 @@ document.addEventListener('init', function (event) {
 
     $("#setAddress").click(function () {
       console.log("Latitude is " + selectedLatitude + " Longitude is " + selectedLongitude);
-
+      $("#content")[0].load("completeOrder.html");
       // ons.notification.alert();
     });
 
     $("#backbtn").click(function () {
+      $("#content")[0].load("foodCategory.html");
+    });
+  }
+
+  if (page.id === "completeOrderPage") {
+
+    ons.notification.alert("ありがとう");
+    db.collection("restaurant").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.data().Ref === selectedRef) {
+          var orderRes = `<img src="${doc.data().pic}" style="width: 20%">
+          <br><b>${doc.data().name}</b><br>`;
+          $('#orderRes').append(orderRes);
+        }
+      });
+    });
+
+    for (var i = 0; i < getitem.length; i++) {
+      var show_OrderMenu = `
+      <ons-col width=20%>&emsp;` + (1) + `</ons-col>
+      <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
+      <ons-col width=20%>`+ getprice[i] + `</ons-col>`;
+
+      $("#orderMenu").append(show_OrderMenu);
+    }
+
+    $("#show_delivery").append("Delivery is " + getdelivery + " ฿");
+    var show_total = "Total: " + (prices + getdelivery) + " ฿";
+    $("#show_total").append(show_total);
+
+    $("#closebtn").click(function(){
       $("#content")[0].load("foodCategory.html");
     });
   }
