@@ -107,9 +107,8 @@ document.addEventListener('init', function (event) {
         // ...
         var email = user.email;
         EMAIL = email;
-        ons.notification.alert("Login Sucess !");
+        // ons.notification.alert("Login Complete !");
         console.log(EMAIL + " sign in");
-        $("#content")[0].load("foodCategory.html");
       }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -322,9 +321,6 @@ document.addEventListener('init', function (event) {
     });
 
     for (var i = 0; i < getitem.length; i++) {
-      // var show_OrderMenu = `<ons-col width=20%>&emsp;` + (1) + `</ons-col>
-      // <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
-      // <ons-col width=20%>`+ getprice[i] + `</ons-col>`;
       var show_OrderMenu = `
       <ons-col width=20%>&emsp;` + (1) + `</ons-col>
       <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
@@ -338,9 +334,7 @@ document.addEventListener('init', function (event) {
     $("#show_total").append(show_total);
 
     $("#paybtn").click(function () {
-      ons.notification.alert("Order Complete !");
-      $("#cancelbtn").html('Back');
-      $("#AllPay").empty();
+      $("#content")[0].load("address.html");
     });
 
     $("#cancelbtn").click(function () {
@@ -351,6 +345,95 @@ document.addEventListener('init', function (event) {
       $("#content")[0].load("foodCategory.html");
     });
 
+  }
+
+  if (page.id === "addressPage") {
+    var latitude, selectedLatitude;
+    var longitude, selectedLongitude;
+
+    var onSuccess = function (position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZW5kb3pha2kiLCJhIjoiY2sybGExYWp0MDR5ZDNobHBqYmxlbXhkYyJ9.5B75D4Lwqh_gQk7Uj_vefw';
+      var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+        center: [longitude, latitude], // starting position [lng, lat]
+        zoom: 14 // starting zoom
+      });
+      
+      var marker = new mapboxgl.Marker({
+        draggable: true
+      })
+        .setLngLat([longitude, latitude])
+        .addTo(map);
+      onDragEnd();
+      function onDragEnd() {
+        var lngLat = marker.getLngLat();
+        selectedLatitude = lngLat.lat;
+        selectedLongitude = lngLat.lng;
+
+        coordinates.style.display = 'block';
+        coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+      }
+
+      marker.on('dragend', onDragEnd);
+    };
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+      alert('code: ' + error.code + '\n' +
+        'message: ' + error.message + '\n');
+    }
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+    $("#setAddress").click(function () {
+      console.log("Latitude is " + selectedLatitude + " Longitude is " + selectedLongitude);
+      $("#content")[0].load("completeOrder.html");
+      // ons.notification.alert();
+    });
+
+    $("#backbtn").click(function () {
+      $("#content")[0].load("foodCategory.html");
+    });
+  }
+
+  if (page.id === "completeOrderPage") {
+
+    ons.notification.alert("ありがとう");
+    db.collection("restaurant").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.data().Ref === selectedRef) {
+          var orderRes = `<img src="${doc.data().pic}" style="width: 20%">
+          <br><b>${doc.data().name}</b><br>`;
+          $('#orderRes').append(orderRes);
+        }
+      });
+    });
+
+    for (var i = 0; i < getitem.length; i++) {
+      var show_OrderMenu = `
+      <ons-col width=20%>&emsp;` + (1) + `</ons-col>
+      <ons-col width=50%>- `+ getitem[i] + `</ons-col>&emsp;&emsp; 
+      <ons-col width=20%>`+ getprice[i] + `</ons-col>`;
+
+      $("#orderMenu").append(show_OrderMenu);
+    }
+
+    $("#show_delivery").append("Delivery is " + getdelivery + " ฿");
+    var show_total = "Total: " + (prices + getdelivery) + " ฿";
+    $("#show_total").append(show_total);
+
+    $("#closebtn").click(function () {
+      prices = parseInt(0);
+      getdelivery = parseInt(0);
+      getitem = [];
+      getprice = [];
+      $("#content")[0].load("foodCategory.html");
+    });
   }
 
 });

@@ -362,10 +362,7 @@ document.addEventListener('init', function (event) {
         center: [longitude, latitude], // starting position [lng, lat]
         zoom: 14 // starting zoom
       });
-
-      // selectedLatitude = latitude;
-      // selectedLongitude = longitude;
-
+      
       var marker = new mapboxgl.Marker({
         draggable: true
       })
