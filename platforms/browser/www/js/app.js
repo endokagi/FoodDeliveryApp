@@ -430,7 +430,11 @@ document.addEventListener('init', function (event) {
     var show_total = "Total: " + (prices + getdelivery) + " ฿";
     $("#show_total").append(show_total);
 
-    $("#closebtn").click(function(){
+    $("#closebtn").click(function () {
+      prices = parseInt(0);
+      getdelivery = parseInt(0);
+      getitem = [];
+      getprice = [];
       $("#content")[0].load("foodCategory.html");
     });
   }
