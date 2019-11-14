@@ -6,17 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Target Food</title>
-    <link rel="manifest" href="/manifest.json">
-
-    <script>
-        // init cordova
-        document.addEventListener("deviceready", onDeviceReady, false);
-        function onDeviceReady() {
-            console.log("navigator.geolocation works well");
-        }
-    </script>
-
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css">
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
 
 </head>
@@ -41,6 +33,7 @@
     </template>
 
 
+    <script src="cordova.js"></script>
     <!-- ///////////////////////////////// Firebase ///////////////////////////////// -->
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
@@ -52,23 +45,9 @@
     <!-- Onsen UI -->
     <script src="lib/onsen/js/onsenui.js"></script>
     <script src="lib/jquery/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
-    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css">
-    <script src="cordova.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then((reg) => {
-                        console.log('Service worker registered.', reg);
-                    });
-            });
-        }
-    </script>
-
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
 
     <script src="js/app.js"></script>
-    <link rel="stylesheet" href="css/app.css">
 </body>
 
 </html>
